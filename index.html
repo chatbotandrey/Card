@@ -1,1 +1,320 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Визитка</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #0d0d0d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Onest', sans-serif;
+    padding: 20px;
+  }
+
+  .card {
+    width: 360px;
+    background: #111;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid #222;
+    box-shadow: 0 0 60px rgba(0,0,0,0.6);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .header {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 36px 28px 28px;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(94,114,228,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5e72e4, #34d399);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 16px;
+    position: relative; z-index: 1;
+    box-shadow: 0 8px 24px rgba(94,114,228,0.4);
+  }
+
+  .name {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    position: relative; z-index: 1;
+    margin-bottom: 6px;
+  }
+
+  .role {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    position: relative; z-index: 1;
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+  }
+
+  .username-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(94,114,228,0.15);
+    border: 1px solid rgba(94,114,228,0.3);
+    border-radius: 20px;
+    padding: 5px 12px;
+    margin-top: 12px;
+    position: relative; z-index: 1;
+  }
+
+  .username-badge span {
+    font-size: 13px;
+    color: #8b9cf7;
+    font-weight: 500;
+  }
+
+  .tg-svg { width: 14px; height: 14px; fill: #8b9cf7; }
+
+  .body { padding: 24px 28px; }
+
+  .section-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.25);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tag {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 7px 13px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .tag:hover {
+    border-color: #5e72e4;
+    color: #8b9cf7;
+    background: rgba(94,114,228,0.08);
+  }
+
+  .contacts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: #161616;
+    border: 1px solid #1e1e1e;
+    transition: all 0.2s;
+  }
+
+  .contact-item:hover {
+    background: #1a1a1a;
+    border-color: #2a2a2a;
+    transform: translateX(3px);
+  }
+
+  .contact-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .ci-tg   { background: rgba(39,172,226,0.15); }
+  .ci-ig   { background: rgba(228,64,95,0.15); }
+  .ci-fb   { background: rgba(24,119,242,0.15); }
+  .ci-th   { background: rgba(0,0,0,0.3); border: 1px solid #2a2a2a; }
+
+  .contact-text { flex: 1; }
+  .contact-label { font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; text-transform: uppercase; }
+  .contact-value { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 400; margin-top: 1px; }
+
+  .footer {
+    padding: 16px 28px;
+    border-top: 1px solid #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .copy-btn {
+    background: linear-gradient(135deg, #5e72e4, #34d399);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-family: 'Onest', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  .dot-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 6px #34d399;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="header">
+    <img src="https://raw.githubusercontent.com/chatbotandrey/Card/main/file_000000008f0472468b2a8590af650a68.png" class="avatar" style="object-fit:cover;">
+    <div class="name">chatbot.dev_andrey</div>
+    <div class="role">Роблю чат-боти для Telegram та Instagram<br>Автоматизую продажі, оплати та комунікацію</div>
+    <div class="username-badge">
+      <svg class="tg-svg" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.04 9.61c-.152.67-.548.835-1.112.52l-3.07-2.263-1.482 1.427c-.164.164-.302.302-.619.302l.221-3.126 5.704-5.153c.248-.221-.054-.344-.384-.123L7.39 14.048l-3.026-.943c-.658-.206-.67-.658.137-.974l11.826-4.561c.548-.199 1.027.137.836.678z"/></svg>
+      <span>@chatbot.dev_andrey</span>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="section-title">Послуги</div>
+    <div class="tags">
+      <div class="tag">🤖 Чат-боти TG</div>
+      <div class="tag">📸 Боти Instagram</div>
+      <div class="tag">⚙️ Автоворонки</div>
+      <div class="tag">💳 Автооплати</div>
+      <div class="tag">📚 Курси</div>
+      <div class="tag">🔒 Закриті клуби</div>
+      <div class="tag">🎯 Лідогенерація</div>
+    </div>
+
+    <div class="section-title">Соцмережі</div>
+    <div class="contacts">
+
+      <a href="https://t.me/chatbot.dev_andrey" class="contact-item">
+        <div class="contact-icon ci-tg">✈️</div>
+        <div class="contact-text">
+          <div class="contact-label">Telegram</div>
+          <div class="contact-value">@chatbot.dev_andrey</div>
+        </div>
+      </a>
+
+      <a href="https://instagram.com/chatbot.dev_andrey" class="contact-item">
+        <div class="contact-icon ci-ig">📷</div>
+        <div class="contact-text">
+          <div class="contact-label">Instagram</div>
+          <div class="contact-value">@chatbot.dev_andrey</div>
+        </div>
+      </a>
+
+      <a href="https://facebook.com/chatbot.dev%20andrey" class="contact-item">
+        <div class="contact-icon ci-fb">👤</div>
+        <div class="contact-text">
+          <div class="contact-label">Facebook</div>
+          <div class="contact-value">chatbot.dev andrey</div>
+        </div>
+      </a>
+
+      <a href="https://threads.net/@chatbot.dev_andrey" class="contact-item">
+        <div class="contact-icon ci-th">🧵</div>
+        <div class="contact-text">
+          <div class="contact-label">Threads</div>
+          <div class="contact-value">@chatbot.dev_andrey</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="dot-status">
+      <div class="dot"></div>
+      на зв'язку
+    </div>
+    <button class="copy-btn" onclick="copyContact()">Скопіювати контакт</button>
+  </div>
+
+</div>
+
+<script>
+function copyContact() {
+  const text = `🤖 chatbot.dev_andrey\n\nРоблю чат-боти для Telegram та Instagram\n⚙️ Автоматизую продажі, оплати та комунікацію\n🔹Автоворонки 🔹Курсы 🔹Закрытые клубы 🔹Лидогенерация\n\nTG: @chatbot.dev_andrey\nIG: @chatbot.dev_andrey`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Скопійовано';
+    setTimeout(() => btn.textContent = 'Скопіювати контакт', 2000);
+  });
+}
+</script>
+
+</body>
+</html>
