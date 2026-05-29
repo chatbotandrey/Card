@@ -1,3 +1,205 @@
+
+
+
+Отримати пропозицію
+
+\Вставлений text(3).txt
+Документ
+кнопка Мои соцсети нужна красивее и текст по центру
+
+Замени у .socials-toggle стили на эти:
+
+.socials-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 18px;
+  background: linear-gradient(135deg, #1f1f1f, #181818);
+  border: 1px solid #2d2d2d;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: 100%;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 4px 18px rgba(0,0,0,0.35);
+}
+
+.socials-toggle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(94,114,228,0.15),
+    rgba(52,211,153,0.08)
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.socials-toggle:hover::before {
+  opacity: 1;
+}
+
+.socials-toggle:hover {
+  transform: translateY(-1px);
+  border-color: #3a3a3a;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 8px 24px rgba(0,0,0,0.45);
+}
+
+.socials-toggle .toggle-left {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.socials-toggle .toggle-arrow {
+  position: absolute;
+  right: 16px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0.5;
+}
+
+.socials-toggle.open .toggle-arrow {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+Будет:
+
+текст идеально по центру;
+
+стрелка справа отдельно;
+
+кнопка станет объемнее и премиальнее;
+
+появится красивый hover/glow эффект.
+
+
+я тебе скинул код сам замени
+
+
+\Вставлений text(4).txt
+Документ
+сам замени
+
+Это уже готовая замена для твоего кода.
+
+Первый блок (css) — вставляешь вместо старых стилей .socials-toggle.
+
+Второй блок (html) — заменяешь саму кнопку Мої соцмережі.
+
+То есть:
+
+удаляешь старый CSS кнопки;
+
+вставляешь новый;
+
+удаляешь старый HTML кнопки;
+
+вставляешь новый.
+
+И кнопка станет красивой с текстом по центру.
+
+
+ я тебе дал полній код исправь в нем блять что ж ті сука такой дибил
+
+/* ===== SOCIALS TOGGLE ===== */
+
+.socials-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 18px;
+  border-radius: 16px;
+  border: 1px solid #2d2d2d;
+  background: linear-gradient(135deg, #1d1d1d, #151515);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  margin-bottom: 0;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 6px 20px rgba(0,0,0,0.35);
+}
+
+.socials-toggle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(94,114,228,0.16),
+    rgba(52,211,153,0.10)
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.socials-toggle:hover::before {
+  opacity: 1;
+}
+
+.socials-toggle:hover {
+  transform: translateY(-1px);
+  border-color: #3a3a3a;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 10px 28px rgba(0,0,0,0.45);
+}
+
+.socials-toggle .toggle-left {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.socials-toggle .toggle-arrow {
+  position: absolute;
+  right: 16px;
+  opacity: 0.5;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.socials-toggle.open .toggle-arrow {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+<!-- Toggle button -->
+<button class="socials-toggle" id="socialsToggle" onclick="toggleSocials()">
+  <div class="toggle-left">
+
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(255,255,255,0.75)">
+      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 
+
+дай мне блять полній код с исправлениями 
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -372,3 +574,465 @@ function toggleSocials(){
 
 </body>
 </html>
+
+Ви вичерпали ліміт Free для чатів із вкладеннями
+Підвищте рівень зараз або зачекайте до 19:16, щоб використовувати файли. Також можна продовжити чат без файлів.
+
+Новий чат
+
+Отримайте безкоштовну пропозицію
+ох ті сука и долбоеб
+
+body {
+min-height: 100vh;
+background: #0d0d0d;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Onest', sans-serif;
+padding: 20px;
+overflow-y: auto;
+}
+
+.card {
+width: 360px;
+background: #111;
+border-radius: 24px;
+overflow: hidden;
+border: 1px solid #222;
+box-shadow: 0 0 60px rgba(0,0,0,0.6);
+animation: fadeUp 0.6s ease both;
+margin-bottom: 20px;
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(24px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+position: relative;
+background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+padding: 36px 28px 28px;
+overflow: hidden;
+}
+
+.header::before {
+content: '';
+position: absolute;
+top: -60px; right: -60px;
+width: 200px; height: 200px;
+background: radial-gradient(circle, rgba(94,114,228,0.25) 0%, transparent 70%);
+border-radius: 50%;
+}
+
+.header::after {
+content: '';
+position: absolute;
+bottom: -40px; left: -40px;
+width: 160px; height: 160px;
+background: radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 70%);
+border-radius: 50%;
+}
+
+.header-top {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+margin-bottom: 16px;
+position: relative;
+z-index: 1;
+}
+
+.avatar {
+width: 72px; height: 72px;
+border-radius: 50%;
+background: linear-gradient(135deg, #5e72e4, #34d399);
+box-shadow: 0 8px 24px rgba(94,114,228,0.4);
+object-fit: cover;
+}
+
+.dot-status {
+display: flex;
+align-items: center;
+gap: 6px;
+font-size: 12px;
+color: rgba(255,255,255,0.4);
+background: rgba(0, 0, 0, 0.3);
+padding: 6px 12px;
+border-radius: 20px;
+border: 1px solid rgba(255,255,255,0.05);
+}
+
+.dot {
+width: 7px; height: 7px;
+border-radius: 50%;
+background: #34d399;
+box-shadow: 0 0 6px #34d399;
+animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.4; }
+}
+
+.name {
+font-family: 'Unbounded', sans-serif;
+font-size: 17px;
+font-weight: 600;
+color: #fff;
+line-height: 1.2;
+position: relative; z-index: 1;
+margin-bottom: 6px;
+}
+
+.role {
+font-size: 13px;
+color: rgba(255,255,255,0.55);
+font-weight: 300;
+position: relative; z-index: 1;
+letter-spacing: 0.01em;
+line-height: 1.5;
+}
+
+.body { padding: 24px 28px; }
+
+.section-title {
+font-size: 10px;
+text-transform: uppercase;
+letter-spacing: 0.12em;
+color: rgba(255,255,255,0.25);
+font-weight: 500;
+margin-bottom: 12px;
+}
+
+.tags {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+margin-bottom: 24px;
+}
+
+.tag {
+background: #1a1a1a;
+border: 1px solid #2a2a2a;
+border-radius: 10px;
+padding: 7px 13px;
+font-size: 12px;
+color: rgba(255,255,255,0.7);
+font-weight: 400;
+transition: all 0.2s;
+cursor: default;
+}
+
+.tag {
+border-color: #5e72e4;
+color: #8b9cf7;
+background: rgba(94,114,228,0.08);
+}
+
+.contacts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+.socials-toggle {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 13px 16px;
+background: #1a1a1a;
+border: 1px solid #2a2a2a;
+border-radius: 12px;
+color: #fff;
+font-size: 14px;
+font-weight: 600;
+font-family: inherit;
+cursor: pointer;
+transition: all 0.2s;
+width: 100%;
+margin-bottom: 0;
+}
+
+.socials-toggle {
+border-color: #444;
+background: #222;
+}
+
+.socials-toggle .toggle-left {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.socials-toggle .toggle-arrow {
+transition: transform 0.3s ease;
+opacity: 0.5;
+}
+
+.socials-toggle.open .toggle-arrow {
+transform: rotate(180deg);
+opacity: 1;
+}
+
+.socials-dropdown {
+display: flex;
+flex-direction: column;
+gap: 8px;
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+opacity: 0;
+margin-top: 0;
+}
+
+.socials-dropdown.open {
+max-height: 300px;
+opacity: 1;
+margin-top: 8px;
+}
+
+.contact-btn {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+padding: 12px 14px;
+border-radius: 12px;
+color: #fff;
+text-decoration: none;
+font-size: 14px;
+font-weight: 600;
+transition: opacity 0.2s, transform 0.1s;
+border: none;
+cursor: pointer;
+}
+
+.contact-btn { opacity: 0.9; transform: translateY(-1px); }
+.contact-btn { transform: scale(0.98); }
+
+.btn-tg { background: #24A1DE; }
+.btn-inst { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.btn-fb { background: #1877F2; }
+.btn-threads { background: #000; border: 1px solid #333; }
+.btn-contact {
+background: linear-gradient(135deg, #7a5c00, #c8960c);
+border: none !important;
+position: relative;
+overflow: hidden;
+color: #fff1c0;
+box-shadow: 0 4px 20px rgba(184,134,11,0.35);
+transition: all 0.25s ease;
+}
+
+.btn-contact::before {
+content: '';
+position: absolute;
+top: 0; left: -100%;
+width: 60%; height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+transform: skewX(-20deg);
+animation: goldShine 3s infinite;
+}
+
+@keyframes goldShine {
+0% { left: -100%; }
+100% { left: 160%; }
+}
+
+.btn-contact {
+background: linear-gradient(135deg, #9a7200, #e8b020);
+box-shadow: 0 6px 28px rgba(255,185,0,0.45);
+transform: translateY(-1px);
+color: #fff;
+}
+
+.btn-contact { transform: scale(0.98); }
+
+.btn-contact.saved {
+background: linear-gradient(135deg, #34d399, #10b981);
+box-shadow: 0 4px 20px rgba(52,211,153,0.4);
+color: #fff;
+}
+
+.btn-icon { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+
+/* FORM STYLES */
+.form { margin-bottom: 8px; }
+
+.form select, .form input, .form textarea {
+width: 100%;
+margin-top: 10px;
+padding: 12px;
+border-radius: 12px;
+border: 1px solid #2a2a2a;
+background: #161616;
+color: #fff;
+font-family: inherit;
+font-size: 13px;
+outline: none;
+transition: border-color 0.2s;
+}
+
+.form select, .form input, .form textarea {
+border-color: #5e72e4;
+}
+
+.form select { cursor: pointer; color: rgba(255,255,255,0.8); }
+.form select option { background: #161616; }
+.form textarea { min-height: 80px; resize: vertical; }
+
+.form button {
+width: 100%;
+margin-top: 14px;
+padding: 14px;
+border: none;
+border-radius: 12px;
+background: linear-gradient(135deg, #5e72e4, #34d399);
+color: #fff;
+cursor: pointer;
+font-weight: 600;
+font-family: inherit;
+font-size: 14px;
+transition: all 0.2s;
+box-shadow: 0 4px 15px rgba(94,114,228,0.2);
+}
+
+.form button {
+opacity: 0.95;
+transform: translateY(-1px);
+box-shadow: 0 6px 20px rgba(94,114,228,0.3);
+}
+
+.form button {
+opacity: 0.6;
+cursor: not-allowed;
+transform: none;
+}
+
+.form button {
+transform: scale(0.97);
+box-shadow: 0 2px 8px rgba(94,114,228,0.2);
+}
+
+.form button.sending {
+background: linear-gradient(135deg, #4a5cc7, #28b884);
+animation: btnPulse 1s infinite;
+}
+
+.form button.sent {
+background: linear-gradient(135deg, #34d399, #10b981);
+cursor: default;
+}
+
+@keyframes btnPulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.7; }
+}
+
+/* Toast notification */
+.toast {
+position: fixed;
+bottom: 30px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #1a1a1a;
+border: 1px solid #333;
+color: #fff;
+padding: 12px 24px;
+border-radius: 50px;
+font-size: 13px;
+font-family: 'Onest', sans-serif;
+opacity: 0;
+transition: all 0.3s ease;
+z-index: 9999;
+white-space: nowrap;
+pointer-events: none;
+}
+
+.toast.show {
+opacity: 1;
+transform: translateX(-50%) translateY(0);
+}
+
+.toast.success { border-color: #34d399; color: #34d399; }
+.toast.error { border-color: #f87171; color: #f87171; }
+
+.footer {
+padding: 16px 28px;
+border-top: 1px solid #1a1a1a;
+text-align: center;
+font-size: 11px;
+color: rgba(255,255,255,0.15);
+letter-spacing: 0.05em;
+}
+
+
+<div class="section-title">Послуги</div>
+<div class="tags">
+  <div class="tag">🤖 Чат-боти TG</div>
+  <div class="tag">📸 Боти Instagram</div>
+  <div class="tag">⚙️ Автоворонки</div>
+  <div class="tag">💳 Автооплати</div>
+  <div class="tag">📚 Курси</div>
+  <div class="tag">🔒 Закриті клуби</div>
+  <div class="tag">🎯 Лідогенерація</div>
+</div>
+
+<div class="section-title">Соцмережі</div>
+<div class="contacts">
+
+  <!-- Toggle button -->
+  <button class="socials-toggle" id="socialsToggle" onclick="toggleSocials()">
+    <div class="toggle-left">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Мої соцмережі
+    </div>
+    <svg class="toggle-arrow" width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>
+  </button>
+
+  <!-- Dropdown -->
+  <div class="socials-dropdown" id="socialsDropdown">
+    <a href="https://t.me/chatbot_dev_andrey" target="_blank" class="contact-btn btn-tg">
+      <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.62.15-.15 2.7-2.46 2.75-2.67.01-.03.01-.15-.06-.21-.07-.06-.17-.04-.25-.02-.11.02-1.82 1.15-5.14 3.39-.49.33-.93.5-1.34.49-.45-.01-1.31-.25-1.95-.46-.78-.26-1.4-.4-1.35-.85.03-.24.36-.48.99-.73 3.89-1.69 6.48-2.8 7.78-3.33 3.71-1.52 4.48-1.78 4.98-1.79.11 0 .36.03.52.16.14.11.18.26.2.46-.02.04-.01.12-.01.17z"/></svg>
+      Telegram
+    </a>
+    <a href="https://instagram.com/chatbot.dev_andrey" target="_blank" class="contact-btn btn-inst">
+      <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919zm0 5.602c-2.331 0-4.228 1.896-4.228 4.228 0 2.331 1.897 4.229 4.228 4.229 2.331 0 4.228-1.898 4.228-4.229 0-2.332-1.897-4.228-4.228-4.228zm0 7.042c-1.554 0-2.814-1.26-2.814-2.814 0-1.554 1.26-2.814 2.814-2.814 1.554 0 2.814 1.26 2.814 2.814 0 1.554-1.26 2.814-2.814 2.814zm5.666-7.323c0 .56-.454 1.015-1.015 1.015-.561 0-1.015-.454-1.015-1.015 0-.56.454-1.015 1.015-1.015.561 0 1.016.455 1.016 1.015z"/></svg>
+      Instagram
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61585979653533" target="_blank" class="contact-btn btn-fb">
+      <svg class="btn-icon" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg>
+      Facebook
+    </a>
+    <a href="https://www.threads.net/@chatbot.dev_andrey" target="_blank" class="contact-btn btn-threads">
+      <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.474 12.01v-.017c.03-3.579.884-6.43 2.525-8.482C5.856 1.205 8.604.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c1.07-1.561 2.832-2.207 4.63-2.207h.043c3.474.022 5.55 2.055 5.8 5.58.138.023.274.048.411.076 1.248.243 2.303.82 3.049 1.678 1.102 1.254 1.474 3.01.988 4.894-.706 2.7-2.667 4.578-5.517 5.295-.965.244-2.007.365-3.09.365l-.862-.024zm-3.403-7.01c.04.694.507 1.275 1.252 1.758.595.386 1.352.578 2.145.535 1.114-.061 1.95-.47 2.485-1.218.578-.802.87-1.98.868-3.506a11.9 11.9 0 0 0-2.53-.19c-1.064.062-1.952.352-2.49.818-.492.427-.753.982-.73 1.803z"/></svg>
+      Threads
+    </a>
+  </div>
+
+  <!-- Додати в контакти -->
+  <button class="contact-btn btn-contact" id="addContactBtn" onclick="downloadVCard()">
+    <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+    <span id="contactBtnText">Додати в контакти</span>
+  </button>
+
+</div>
+
+<!-- БЛОК "ЗАПИТ НА ПОСЛУГУ" -->
+<div class="section-title">Запит на послугу</div>
+<div class="form" id="orderForm">
+  <select name="social_platform" id="socialPlatform" required>
+    <option value="" disabled selected>Оберіть соцмережу для зв'язку</option>
+    <option value="Telegram">Telegram</option>
+    <option value="Instagram">Instagram</option>
+    <option value="Facebook">Facebook</option>
+    <option value="Threads">Threads</option>
+  </select>
+
+  <input type="text" name="username" id="username" placeholder="Ваш нікнейм (наприклад, @username)" required>
+
+  <textarea name="request_text" id="requestText" placeholder="Опишіть вашу задачу або яку послугу бажаєте отримати..." required></textarea>
+
+  <button type="button" id="submitBtn" onclick="submitForm()">Надіслати запит</button>
+</div>
+
+Закрити
