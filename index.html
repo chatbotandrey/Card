@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Визитка — chatbot.dev_andrey</title>
-<!-- Исправленное подключение шрифтов Google Fonts -->
+<title>Візитка — chatbot.dev_andrey</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://googleapis.com" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -182,36 +181,8 @@
   .btn-tg { background: #24A1DE; }
   .btn-inst { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
   .btn-fb { background: #1877F2; }
-  .btn-threads { background: #000000; border: 1px solid #2a2a2a; }
 
   .btn-icon { width: 18px; height: 18px; fill: currentColor; }
-
-  .add-contact-block {
-    margin-bottom: 24px;
-  }
-
-  .add-contact-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #5e72e4, #34d399);
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    box-shadow: 0 4px 15px rgba(94,114,228,0.2);
-    transition: all 0.2s;
-  }
-
-  .add-contact-btn:hover {
-    opacity: 0.95;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(94,114,228,0.3);
-  }
 
   /* FORM STYLES */
   .form {
@@ -236,13 +207,13 @@
     border-color: #5e72e4;
   }
 
-  .form select { cursor: pointer; }
+  .form select { cursor: pointer; color: rgba(255,255,255,0.8); }
   .form textarea { min-height: 80px; resize: vertical; }
 
   .form button {
     width: 100%;
-    margin-top: 12px;
-    padding: 12px;
+    margin-top: 14px;
+    padding: 14px;
     border: none;
     border-radius: 12px;
     background: linear-gradient(135deg, #5e72e4, #34d399);
@@ -252,9 +223,14 @@
     font-family: inherit;
     font-size: 14px;
     transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(94,114,228,0.2);
   }
 
-  .form button:hover { opacity: 0.9; transform: translateY(-1px); }
+  .form button:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(94,114,228,0.3);
+  }
 
   .footer {
     padding: 16px 28px;
@@ -272,7 +248,6 @@
 
   <div class="header">
     <div class="header-top">
-      <!-- Замените заглушку на реальный URL вашего фото -->
       <img src="https://unsplash.com" class="avatar" alt="Avatar" style="object-fit:cover;">
       <div class="dot-status">
         <div class="dot"></div>
@@ -315,6 +290,39 @@
         <svg class="btn-icon" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg>
         Facebook
       </a>
+    </div>
 
-      <!-- Threads -->
-      <a href="https://threads.net" target="_blank" class="contact-btn btn-threads">
+    <!-- БЛОК "ЗАПИТ НА ПОСЛУГУ" -->
+    <div class="section-title">Запит на послугу</div>
+    <form class="form" id="orderForm">
+      <!-- Выпадающий список выбора соцсети -->
+      <select name="social_platform" id="socialPlatform" required>
+        <option value="" disabled selected>Оберіть соцмережу для зв'язку</option>
+        <option value="Telegram">Telegram</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Viber">Viber / Телефон</option>
+      </select>
+      
+      <!-- Поле для ввода юзернейма -->
+      <input type="text" name="username" id="username" placeholder="Ваш нікнейм (наприклад, @username)" required>
+      
+      <!-- Поле для описания запроса -->
+      <textarea name="request_text" id="requestText" placeholder="Опишіть вашу задачу або яку послугу бажаєте отримати..." required></textarea>
+      
+      <button type="submit">Надіслати запит</button>
+    </form>
+
+  </div>
+
+  <div class="footer">
+    © 2026 chatbot.dev_andrey. All rights reserved.
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // ТОКЕН и ID ЧАТА вашего бота (вставьте свои данные)
+    const BOT_TOKEN = 'ВАШ_BOT_TOKEN'; 
