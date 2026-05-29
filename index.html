@@ -488,7 +488,10 @@
   /* ── Form submit → бекенд ── */
   async function submitForm() {
     const platform = document.getElementById('socialPlatform').value;
-    const username = document.getElementById('username').value.trim();
+    let username = document.getElementById('username').value.trim();
+    if (platform !== 'Facebook' && username && !username.startsWith('@') && !username.startsWith('http')) {
+      username = '@' + username;
+    }
     const text     = document.getElementById('requestText').value.trim();
 
     if (!platform || !username || !text) {
