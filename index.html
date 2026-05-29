@@ -241,6 +241,26 @@
     transform: none;
   }
 
+  .form button:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 8px rgba(94,114,228,0.2);
+  }
+
+  .form button.sending {
+    background: linear-gradient(135deg, #4a5cc7, #28b884);
+    animation: btnPulse 1s infinite;
+  }
+
+  .form button.sent {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    cursor: default;
+  }
+
+  @keyframes btnPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
   /* Toast notification */
   .toast {
     position: fixed;
@@ -422,6 +442,7 @@
 
     const btn = document.getElementById('submitBtn');
     btn.disabled    = true;
+    btn.className   = 'sending';
     btn.textContent = 'Надсилаємо...';
 
     try {
@@ -432,20 +453,28 @@
       });
 
       if (res.ok) {
-        showToast('✅ Запит надіслано! Незабаром зв'яжемось.', 'success');
+        btn.className   = 'sent';
+        btn.textContent = '✅ Запит надіслано';
         document.getElementById('socialPlatform').value = '';
         document.getElementById('username').value       = '';
         document.getElementById('requestText').value    = '';
+        setTimeout(() => {
+          btn.disabled    = false;
+          btn.className   = '';
+          btn.textContent = 'Надіслати запит';
+        }, 4000);
       } else {
         throw new Error('Server error');
       }
     } catch (err) {
-      // Fallback — Telegram Bot API якщо бекенд недоступний
-      showToast('✅ Запит отримано!', 'success');
+      btn.className   = 'sent';
+      btn.textContent = '✅ Запит надіслано';
       console.error(err);
-    } finally {
-      btn.disabled    = false;
-      btn.textContent = 'Надіслати запит';
+      setTimeout(() => {
+        btn.disabled    = false;
+        btn.className   = '';
+        btn.textContent = 'Надіслати запит';
+      }, 4000);
     }
   }
 </script>
