@@ -184,7 +184,45 @@
   .btn-inst { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
   .btn-fb   { background: #1877F2; }
   .btn-threads { background: #000; border: 1px solid #333; }
-  .btn-contact { background: linear-gradient(135deg, #5e72e4, #34d399); }
+  .btn-contact {
+    background: linear-gradient(135deg, #7a5c00, #c8960c);
+    border: none !important;
+    position: relative;
+    overflow: hidden;
+    color: #fff1c0;
+    box-shadow: 0 4px 20px rgba(184,134,11,0.35);
+    transition: all 0.25s ease;
+  }
+
+  .btn-contact::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: skewX(-20deg);
+    animation: goldShine 3s infinite;
+  }
+
+  @keyframes goldShine {
+    0%   { left: -100%; }
+    100% { left: 160%; }
+  }
+
+  .btn-contact:hover {
+    background: linear-gradient(135deg, #9a7200, #e8b020);
+    box-shadow: 0 6px 28px rgba(255,185,0,0.45);
+    transform: translateY(-1px);
+    color: #fff;
+  }
+
+  .btn-contact:active { transform: scale(0.98); }
+
+  .btn-contact.saved {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    box-shadow: 0 4px 20px rgba(52,211,153,0.4);
+    color: #fff;
+  }
 
   .btn-icon { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
 
@@ -363,9 +401,9 @@
       </a>
 
       <!-- Додати в контакти -->
-      <button class="contact-btn btn-contact" onclick="downloadVCard()">
-        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-        Додати в контакти
+      <button class="contact-btn btn-contact" id="addContactBtn" onclick="downloadVCard()">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+        <span id="contactBtnText">Додати в контакти</span>
       </button>
 
     </div>
@@ -417,7 +455,16 @@
     a.download = 'chatbot_dev_andrey.vcf';
     a.click();
     URL.revokeObjectURL(url);
-    showToast('✅ Контакт збережено!', 'success');
+
+    const btn = document.getElementById('addContactBtn');
+    const btn = document.getElementById('addContactBtn');
+    const label = document.getElementById('contactBtnText');
+    btn.classList.add('saved');
+    label.textContent = '✅ Збережено!';
+    setTimeout(() => {
+      btn.classList.remove('saved');
+      label.textContent = 'Додати в контакти';
+    }, 3000);
   }
 
   /* ── Toast ── */
@@ -449,7 +496,7 @@
       const res = await fetch('https://miniapp-backend-413j.onrender.com/send', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ platform, username, message: text })
+        body: JSON.stringify({ name: `${platform} | ${username}`, msg: text })
       });
 
       if (res.ok) {
