@@ -2,13 +2,17 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Візитка — chatbot.dev_andrey</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>chatbot.dev_andrey — Розробка чат-ботів</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
   body {
     min-height: 100vh;
@@ -23,165 +27,208 @@
 
   .card {
     width: 360px;
+    max-width: 100%;
     background: #111;
-    border-radius: 24px;
+    border-radius: 32px;
     overflow: hidden;
     border: 1px solid #222;
-    box-shadow: 0 0 60px rgba(0,0,0,0.6);
-    animation: fadeUp 0.6s ease both;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.02);
+    animation: fadeUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) both;
     margin-bottom: 20px;
+    transition: transform 0.2s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.01);
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .header {
     position: relative;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    padding: 36px 28px 28px;
+    background: radial-gradient(ellipse at 30% 20%, #1a1a2e, #0a0a14);
+    padding: 32px 24px 28px;
     overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .header::before {
     content: '';
     position: absolute;
-    top: -60px; right: -60px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(94,114,228,0.25) 0%, transparent 70%);
+    top: -50px;
+    right: -50px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(94, 114, 228, 0.3) 0%, transparent 70%);
     border-radius: 50%;
+    pointer-events: none;
   }
 
   .header::after {
     content: '';
     position: absolute;
-    bottom: -40px; left: -40px;
-    width: 160px; height: 160px;
-    background: radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 70%);
+    bottom: -40px;
+    left: -40px;
+    width: 170px;
+    height: 170px;
+    background: radial-gradient(circle, rgba(52, 211, 153, 0.15) 0%, transparent 70%);
     border-radius: 50%;
+    pointer-events: none;
   }
 
   .header-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
   .avatar {
-    width: 72px; height: 72px;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     background: linear-gradient(135deg, #5e72e4, #34d399);
-    box-shadow: 0 8px 24px rgba(94,114,228,0.4);
+    box-shadow: 0 12px 28px rgba(94, 114, 228, 0.35);
     object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s;
   }
 
   .dot-status {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    background: rgba(0, 0, 0, 0.3);
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.65);
+    background: rgba(10, 10, 20, 0.6);
     padding: 6px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 60px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(2px);
   }
 
   .dot {
-    width: 7px; height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #34d399;
-    box-shadow: 0 0 6px #34d399;
-    animation: pulse 2s infinite;
+    box-shadow: 0 0 8px #34d399;
+    animation: pulse 1.8s infinite;
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
   }
 
   .name {
     font-family: 'Unbounded', sans-serif;
-    font-size: 17px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 700;
     color: #fff;
-    line-height: 1.2;
-    position: relative; z-index: 1;
+    line-height: 1.25;
+    position: relative;
+    z-index: 2;
     margin-bottom: 6px;
+    letter-spacing: -0.2px;
   }
 
   .role {
-    font-size: 13px;
-    color: rgba(255,255,255,0.55);
-    font-weight: 300;
-    position: relative; z-index: 1;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+    position: relative;
+    z-index: 2;
     letter-spacing: 0.01em;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
-  .body { padding: 24px 28px; }
+  .body {
+    padding: 24px 24px;
+  }
 
   .section-title {
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.25);
-    font-weight: 500;
-    margin-bottom: 12px;
+    letter-spacing: 0.14em;
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+    margin-bottom: 14px;
   }
 
   .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
 
   .tag {
     background: #1a1a1a;
     border: 1px solid #2a2a2a;
-    border-radius: 10px;
-    padding: 7px 13px;
+    border-radius: 12px;
+    padding: 6px 14px;
     font-size: 12px;
-    color: rgba(255,255,255,0.7);
-    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 450;
     transition: all 0.2s;
     cursor: default;
+    backdrop-filter: blur(2px);
   }
 
   .tag:hover {
     border-color: #5e72e4;
-    color: #8b9cf7;
-    background: rgba(94,114,228,0.08);
+    color: #b1c2ff;
+    background: rgba(94, 114, 228, 0.1);
+    transform: translateY(-1px);
   }
 
-  .contacts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
 
+  /* ---------- НОВА КРАСИВА КНОПКА СОЦМЕРЕЖ (ТЕКСТ ПО ЦЕНТРУ) ---------- */
   .socials-toggle {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 13px 16px;
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 12px;
-    color: #fff;
-    font-size: 14px;
+    justify-content: center;  /* текст і іконка рівно по центру */
+    gap: 12px;
+    padding: 14px 20px;
+    background: linear-gradient(105deg, #1e1e2a 0%, #13131c 100%);
+    border: 1px solid rgba(94, 114, 228, 0.4);
+    border-radius: 60px;
+    color: #f0f3ff;
+    font-size: 15px;
     font-weight: 600;
-    font-family: inherit;
+    font-family: 'Onest', sans-serif;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s ease;
     width: 100%;
     margin-bottom: 0;
-  }
-
-  .socials-toggle:hover {
-    border-color: #444;
-    background: #222;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    letter-spacing: 0.3px;
   }
 
   .socials-toggle .toggle-left {
@@ -190,9 +237,24 @@
     gap: 10px;
   }
 
+  /* іконка профілю всередині кнопки */
+  .profile-icon {
+    width: 20px;
+    height: 20px;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+  }
+
   .socials-toggle .toggle-arrow {
-    transition: transform 0.3s ease;
-    opacity: 0.5;
+    transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    opacity: 0.7;
+    width: 18px;
+    height: 18px;
+  }
+
+  .socials-toggle.open {
+    background: linear-gradient(105deg, #252535, #181826);
+    border-color: #5e72e4;
+    box-shadow: 0 6px 16px rgba(94, 114, 228, 0.25);
   }
 
   .socials-toggle.open .toggle-arrow {
@@ -200,144 +262,185 @@
     opacity: 1;
   }
 
+  .socials-toggle:hover {
+    transform: translateY(-2px);
+    border-color: #7b8cff;
+    background: linear-gradient(105deg, #262638, #1a1a28);
+    box-shadow: 0 12px 22px -8px rgba(94, 114, 228, 0.4);
+  }
+
   .socials-dropdown {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+    transition: max-height 0.45s ease-in-out, opacity 0.35s ease, margin-top 0.3s ease;
     opacity: 0;
     margin-top: 0;
   }
 
   .socials-dropdown.open {
-    max-height: 300px;
+    max-height: 360px;
     opacity: 1;
-    margin-top: 8px;
+    margin-top: 10px;
   }
 
   .contact-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 12px 14px;
-    border-radius: 12px;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 60px;
     color: #fff;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    transition: opacity 0.2s, transform 0.1s;
+    transition: all 0.2s ease;
     border: none;
     cursor: pointer;
+    width: 100%;
+    background: #1e1e28;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 
-  .contact-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-  .contact-btn:active { transform: scale(0.98); }
+  .contact-btn:hover {
+    opacity: 0.92;
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+  }
+  .contact-btn:active {
+    transform: scale(0.98);
+  }
 
-  .btn-tg   { background: #24A1DE; }
-  .btn-inst { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-  .btn-fb   { background: #1877F2; }
-  .btn-threads { background: #000; border: 1px solid #333; }
+  .btn-tg {
+    background: #24A1DE;
+  }
+  .btn-inst {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  }
+  .btn-fb {
+    background: #1877F2;
+  }
+  .btn-threads {
+    background: #000;
+    border: 1px solid #333;
+  }
+
   .btn-contact {
-    background: linear-gradient(135deg, #7a5c00, #c8960c);
+    background: linear-gradient(135deg, #c98b0b, #f5b042);
     border: none !important;
     position: relative;
     overflow: hidden;
-    color: #fff1c0;
-    box-shadow: 0 4px 20px rgba(184,134,11,0.35);
+    color: #fff9e8;
+    box-shadow: 0 6px 18px rgba(245, 176, 66, 0.35);
     transition: all 0.25s ease;
   }
 
   .btn-contact::before {
     content: '';
     position: absolute;
-    top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    top: 0;
+    left: -100%;
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,240,0.25), transparent);
     transform: skewX(-20deg);
-    animation: goldShine 3s infinite;
+    animation: goldShine 3.2s infinite;
   }
 
   @keyframes goldShine {
-    0%   { left: -100%; }
-    100% { left: 160%; }
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 160%;
+    }
   }
 
   .btn-contact:hover {
-    background: linear-gradient(135deg, #9a7200, #e8b020);
-    box-shadow: 0 6px 28px rgba(255,185,0,0.45);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #e0a120, #ffc65a);
+    box-shadow: 0 8px 28px rgba(255, 185, 0, 0.55);
+    transform: translateY(-2px);
     color: #fff;
   }
-
-  .btn-contact:active { transform: scale(0.98); }
 
   .btn-contact.saved {
     background: linear-gradient(135deg, #34d399, #10b981);
-    box-shadow: 0 4px 20px rgba(52,211,153,0.4);
-    color: #fff;
+    box-shadow: 0 4px 20px rgba(52, 211, 153, 0.5);
   }
 
-  .btn-icon { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
 
-  /* FORM STYLES */
-  .form { margin-bottom: 8px; }
+  /* Form styles */
+  .form {
+    margin-bottom: 12px;
+  }
 
   .form select, .form input, .form textarea {
     width: 100%;
-    margin-top: 10px;
-    padding: 12px;
-    border-radius: 12px;
+    margin-top: 12px;
+    padding: 13px 16px;
+    border-radius: 20px;
     border: 1px solid #2a2a2a;
-    background: #161616;
+    background: #16161c;
     color: #fff;
-    font-family: inherit;
+    font-family: 'Onest', sans-serif;
     font-size: 13px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
 
   .form select:focus, .form input:focus, .form textarea:focus {
     border-color: #5e72e4;
+    box-shadow: 0 0 0 2px rgba(94, 114, 228, 0.3);
   }
 
-  .form select { cursor: pointer; color: rgba(255,255,255,0.8); }
-  .form select option { background: #161616; }
-  .form textarea { min-height: 80px; resize: vertical; }
+  .form select {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.85);
+    background: #16161c;
+  }
+  .form select option {
+    background: #111;
+  }
+  .form textarea {
+    min-height: 88px;
+    resize: vertical;
+  }
 
   .form button {
     width: 100%;
-    margin-top: 14px;
+    margin-top: 18px;
     padding: 14px;
     border: none;
-    border-radius: 12px;
+    border-radius: 60px;
     background: linear-gradient(135deg, #5e72e4, #34d399);
     color: #fff;
     cursor: pointer;
-    font-weight: 600;
-    font-family: inherit;
+    font-weight: 700;
+    font-family: 'Onest', sans-serif;
     font-size: 14px;
     transition: all 0.2s;
-    box-shadow: 0 4px 15px rgba(94,114,228,0.2);
+    box-shadow: 0 6px 16px rgba(94, 114, 228, 0.3);
   }
 
   .form button:hover {
-    opacity: 0.95;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(94,114,228,0.3);
+    opacity: 0.96;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(94, 114, 228, 0.4);
   }
 
   .form button:disabled {
-    opacity: 0.6;
+    opacity: 0.65;
     cursor: not-allowed;
     transform: none;
-  }
-
-  .form button:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 8px rgba(94,114,228,0.2);
   }
 
   .form button.sending {
@@ -347,25 +450,27 @@
 
   .form button.sent {
     background: linear-gradient(135deg, #34d399, #10b981);
-    cursor: default;
   }
 
   @keyframes btnPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
   }
 
-  /* Toast notification */
   .toast {
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: #fff;
+    background: #1e1e2c;
+    border: 1px solid rgba(94, 114, 228, 0.5);
+    color: #eef;
     padding: 12px 24px;
-    border-radius: 50px;
+    border-radius: 80px;
     font-size: 13px;
     font-family: 'Onest', sans-serif;
     opacity: 0;
@@ -373,6 +478,7 @@
     z-index: 9999;
     white-space: nowrap;
     pointer-events: none;
+    backdrop-filter: blur(12px);
   }
 
   .toast.show {
@@ -380,16 +486,36 @@
     transform: translateX(-50%) translateY(0);
   }
 
-  .toast.success { border-color: #34d399; color: #34d399; }
-  .toast.error   { border-color: #f87171; color: #f87171; }
+  .toast.success {
+    border-color: #34d399;
+    color: #a7f3d0;
+  }
+  .toast.error {
+    border-color: #f87171;
+    color: #fecaca;
+  }
 
   .footer {
-    padding: 16px 28px;
-    border-top: 1px solid #1a1a1a;
+    padding: 16px 24px;
+    border-top: 1px solid #1c1c24;
     text-align: center;
-    font-size: 11px;
-    color: rgba(255,255,255,0.15);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.2);
     letter-spacing: 0.05em;
+  }
+
+  /* адаптив */
+  @media (max-width: 400px) {
+    .card {
+      width: 100%;
+    }
+    .socials-toggle {
+      font-size: 14px;
+      padding: 12px 16px;
+    }
+    .body {
+      padding: 20px;
+    }
   }
 </style>
 </head>
@@ -401,12 +527,10 @@
 
   <div class="header">
     <div class="header-top">
-      <img
-        src="https://raw.githubusercontent.com/chatbotandrey/Card/main/photo_2026-05-29_08-20-55.png"
-        class="avatar"
-        alt="Андрій"
-        onerror="this.style.background='linear-gradient(135deg,#5e72e4,#34d399)'; this.src='';"
-      >
+      <img src="https://raw.githubusercontent.com/chatbotandrey/Card/main/photo_2026-05-29_08-20-55.png"
+           class="avatar"
+           alt="Андрій"
+           onerror="this.style.background='linear-gradient(135deg,#5e72e4,#34d399)'; this.src='';">
       <div class="dot-status">
         <div class="dot"></div>
         на зв'язку
@@ -432,16 +556,18 @@
     <div class="section-title">Соцмережі</div>
     <div class="contacts">
 
-      <!-- Toggle button -->
+      <!-- ★ ОНОВЛЕНА КНОПКА: ТЕКСТ І ІКОНКА ПО ЦЕНТРУ ★ -->
       <button class="socials-toggle" id="socialsToggle" onclick="toggleSocials()">
         <div class="toggle-left">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-          Мої соцмережі
+          <svg class="profile-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
+          </svg>
+          <span>Мої соцмережі</span>
         </div>
-        <svg class="toggle-arrow" width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>
+        <svg class="toggle-arrow" width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>
       </button>
 
-      <!-- Dropdown -->
+      <!-- Дропдаун з соцмережами -->
       <div class="socials-dropdown" id="socialsDropdown">
         <a href="https://t.me/chatbot_dev_andrey" target="_blank" class="contact-btn btn-tg">
           <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.62.15-.15 2.7-2.46 2.75-2.67.01-.03.01-.15-.06-.21-.07-.06-.17-.04-.25-.02-.11.02-1.82 1.15-5.14 3.39-.49.33-.93.5-1.34.49-.45-.01-1.31-.25-1.95-.46-.78-.26-1.4-.4-1.35-.85.03-.24.36-.48.99-.73 3.89-1.69 6.48-2.8 7.78-3.33 3.71-1.52 4.48-1.78 4.98-1.79.11 0 .36.03.52.16.14.11.18.26.2.46-.02.04-.01.12-.01.17z"/></svg>
@@ -461,15 +587,14 @@
         </a>
       </div>
 
-      <!-- Додати в контакти -->
+      <!-- Кнопка додати в контакти -->
       <button class="contact-btn btn-contact" id="addContactBtn" onclick="downloadVCard()">
         <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
         <span id="contactBtnText">Додати в контакти</span>
       </button>
-
     </div>
 
-    <!-- БЛОК "ЗАПИТ НА ПОСЛУГУ" -->
+    <!-- Форма запиту -->
     <div class="section-title">Запит на послугу</div>
     <div class="form" id="orderForm">
       <select name="social_platform" id="socialPlatform" required>
@@ -486,17 +611,15 @@
 
       <button type="button" id="submitBtn" onclick="submitForm()">Надіслати запит</button>
     </div>
-
   </div>
 
   <div class="footer">
     © 2026 chatbot.dev_andrey. All rights reserved.
   </div>
-
 </div>
 
 <script>
-  /* ── Toggle Socials ── */
+  // Toggle соцмереж з новою кнопкою
   function toggleSocials() {
     const btn = document.getElementById('socialsToggle');
     const dropdown = document.getElementById('socialsDropdown');
@@ -504,7 +627,7 @@
     dropdown.classList.toggle('open');
   }
 
-  /* ── Placeholder ── */
+  // Динамічний плейсхолдер для Facebook
   document.getElementById('socialPlatform').addEventListener('change', function() {
     const input = document.getElementById('username');
     if (this.value === 'Facebook') {
@@ -514,7 +637,7 @@
     }
   });
 
-  /* ── vCard ── */
+  // vCard контакт
   function downloadVCard() {
     const vcard = [
       'BEGIN:VCARD',
@@ -523,14 +646,14 @@
       'TITLE:Telegram & Instagram Automation',
       'URL:https://t.me/chatbot_dev_andrey',
       'EMAIL:',
-      'NOTE:Чат-боти для Telegram та Instagram. Автоматизую продажі\\, оплати та комунікацію.',
+      'NOTE:Чат-боти для Telegram та Instagram. Автоматизую продажі, оплати та комунікацію.',
       'END:VCARD'
     ].join('\n');
 
     const blob = new Blob([vcard], { type: 'text/vcard' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
     a.download = 'chatbot_dev_andrey.vcf';
     a.click();
     URL.revokeObjectURL(url);
@@ -545,23 +668,22 @@
     }, 3000);
   }
 
-  /* ── Toast ── */
   function showToast(msg, type = '') {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.className   = 'toast ' + type;
+    t.className = 'toast ' + type;
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  /* ── Form submit → бекенд ── */
+  // Відправка форми на бекенд
   async function submitForm() {
     const platform = document.getElementById('socialPlatform').value;
     let username = document.getElementById('username').value.trim();
     if (platform !== 'Facebook' && username && !username.startsWith('@') && !username.startsWith('http')) {
       username = '@' + username;
     }
-    const text     = document.getElementById('requestText').value.trim();
+    const text = document.getElementById('requestText').value.trim();
 
     if (!platform || !username || !text) {
       showToast('⚠️ Заповніть всі поля', 'error');
@@ -569,43 +691,25 @@
     }
 
     const btn = document.getElementById('submitBtn');
-    btn.disabled    = true;
-    btn.className   = 'sending';
+    btn.disabled = true;
+    btn.className = 'sending';
     btn.textContent = 'Надсилаємо...';
 
     try {
       const res = await fetch('https://miniapp-backend-413j.onrender.com/send', {
-        method:  'POST',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: `${platform} | ${username}`, msg: text })
       });
 
       if (res.ok) {
-        btn.className   = 'sent';
+        btn.className = 'sent';
         btn.textContent = '✅ Запит надіслано';
         document.getElementById('socialPlatform').value = '';
-        document.getElementById('username').value       = '';
-        document.getElementById('requestText').value    = '';
+        document.getElementById('username').value = '';
+        document.getElementById('requestText').value = '';
+        showToast('Запит успішно відправлено!', 'success');
         setTimeout(() => {
-          btn.disabled    = false;
-          btn.className   = '';
-          btn.textContent = 'Надіслати запит';
-        }, 4000);
-      } else {
-        throw new Error('Server error');
-      }
-    } catch (err) {
-      btn.className   = 'sent';
-      btn.textContent = '✅ Запит надіслано';
-      console.error(err);
-      setTimeout(() => {
-        btn.disabled    = false;
-        btn.className   = '';
-        btn.textContent = 'Надіслати запит';
-      }, 4000);
-    }
-  }
-</script>
-
-</body>
-</html>
+          btn.disabled = false;
+          btn.className = '';
+          btn.textContent =
