@@ -299,6 +299,19 @@ function renderVideo(videoSrc, folder) {
       <iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe>
     </div>`;
   }
+  if (videoSrc.includes('vimeo.com')) {
+    const vimeoMatch = videoSrc.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vimeoMatch) {
+      return `<div class="video-wrap">
+        <iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}" allowfullscreen></iframe>
+      </div>`;
+    }
+  }
+  if (videoSrc.startsWith('http')) {
+    return `<div class="video-wrap">
+      <iframe src="${videoSrc}" allowfullscreen></iframe>
+    </div>`;
+  }
   return `<div class="video-wrap">
     <video controls src="${BASE}${folder}/${videoSrc}"></video>
   </div>`;
@@ -357,7 +370,8 @@ function toggleMedia(btn) {
     section.classList.add('open');
     btn.querySelector('.btn-label').textContent = 'Сховати ↑';
     setTimeout(() => {
-      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const top = card.getBoundingClientRect().top + window.pageYOffset - 16;
+      window.scrollTo({ top, behavior: 'smooth' });
     }, 400);
   }
 }
