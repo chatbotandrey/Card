@@ -4,12 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Візитка — chatbot.dev_andrey</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#5e72e4">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Андрій">
-<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -312,6 +306,33 @@
   .btn-inst { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
   .btn-fb   { background: #1877F2; }
   .btn-threads { background: #000; border: 1px solid #333; }
+  .btn-reviews {
+    background: linear-gradient(135deg, #1a1a2e, #2a1a3e);
+    border: 1px solid #3a2a5a !important;
+    color: #c4b5fd;
+    box-shadow: 0 4px 20px rgba(139,92,246,0.15);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-reviews::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: skewX(-20deg);
+    animation: goldShine 3s infinite;
+  }
+
+  .btn-reviews:hover {
+    background: linear-gradient(135deg, #1f1f3a, #351a4e);
+    box-shadow: 0 6px 28px rgba(139,92,246,0.3);
+    transform: translateY(-1px);
+    color: #ddd6fe;
+  }
+
   .btn-projects {
     background: linear-gradient(135deg, #1a2e1a, #1a3a2e);
     border: 1px solid #2a4a2a !important;
@@ -594,6 +615,12 @@
         </a>
       </div>
 
+      <!-- Відгуки -->
+      <a href="reviews.html" class="contact-btn btn-reviews">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+        Відгуки
+      </a>
+
       <!-- Мої проєкти -->
       <a href="projects.html" class="contact-btn btn-projects">
         <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.1 15.9 0 13.36 0c-1.28 0-2.43.5-3.3 1.3L9 3.5 7.94 2.3C7.07.5 5.92 0 4.64 0 2.1 0 0 2.1 0 4.64c0 .48.11.92.18 1.36H0v2h20V6zM4.64 4.5c-.97 0-1.5-.56-1.5-1.5s.53-1.5 1.5-1.5c.5 0 .93.28 1.2.68L7.4 4.5H4.64zm8.72 0H10.6l1.56-1.82c.27-.4.7-.68 1.2-.68.97 0 1.5.56 1.5 1.5s-.53 1.5-1.5 1.5zM1 20c0 1.1.9 2 2 2h7v-7H1v5zm13 2h4c1.1 0 2-.9 2-2v-3h-6v5zm4-11H2c-.55 0-1 .45-1 1v2h20v-2c0-.55-.45-1-1-1z"/></svg>
@@ -609,7 +636,7 @@
     </div>
 
     <!-- БЛОК "ЗАПИТ НА ПОСЛУГУ" -->
-    <div class="section-title">Запит на послугу</div>
+    <div class="section-title">Залишити заявку або відгук</div>
     <div class="form" id="orderForm">
       <select name="social_platform" id="socialPlatform" required>
         <option value="" disabled selected>Оберіть соцмережу для зв'язку</option>
@@ -621,7 +648,7 @@
 
       <input type="text" name="username" id="username" placeholder="Ваш нікнейм (наприклад, @username)" required>
 
-      <textarea name="request_text" id="requestText" placeholder="Опишіть вашу задачу або яку послугу бажаєте отримати..." required></textarea>
+      <textarea name="request_text" id="requestText" placeholder="Опишіть вашу задачу, послугу або залиште відгук..." required></textarea>
 
       <button type="button" id="submitBtn" onclick="submitForm()">Надіслати запит</button>
     </div>
