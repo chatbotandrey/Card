@@ -190,6 +190,29 @@
     margin-bottom: 12px;
   }
 
+  .video-thumb {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: opacity 0.2s;
+    border: 1px solid rgba(94,114,228,0.2);
+  }
+
+  .video-thumb:hover { opacity: 0.85; }
+
+  .video-play-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+  }
+
+  .video-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
   .video-wrap {
     border-radius: 12px;
     overflow: hidden;
@@ -224,11 +247,27 @@
 
   .lightbox.show { display: flex; }
 
-  .lightbox img {
+  .lightbox-content {
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-content img {
     max-width: 85vw;
     max-height: 85vh;
     border-radius: 12px;
     object-fit: contain;
+  }
+
+  .lightbox-content iframe {
+    width: 85vw;
+    aspect-ratio: 9/16;
+    border-radius: 12px;
+    border: none;
+    max-height: 85vh;
   }
 
   .lightbox-close {
@@ -310,9 +349,9 @@
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <button class="lightbox-nav prev" onclick="changePhoto(-1)">&#8249;</button>
-  <img id="lightboxImg" src="" alt="">
-  <button class="lightbox-nav next" onclick="changePhoto(1)">&#8250;</button>
+  <button class="lightbox-nav prev" onclick="changeMedia(-1)">&#8249;</button>
+  <div class="lightbox-content" id="lightboxContent"></div>
+  <button class="lightbox-nav next" onclick="changeMedia(1)">&#8250;</button>
   <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
 
@@ -357,12 +396,18 @@ function renderProject(p, index) {
   const video = p.index ? p.index.video : null;
 
   let mediaGridHTML = '';
-  const allPhotos = [];
+  const allMedia = [];
+  if (video) allMedia.push({ type: 'video', src: video, folder });
   for (let i = 1; i <= count; i++) {
     const fname = `${i}.png`;
     if (fname === cover) continue;
-    allPhotos.push(`${BASE}${folder}/${fname}`);
-    mediaGridHTML += `<img src="${BASE}${folder}/${fname}" alt="скрін ${i}" onclick="openLightbox('${BASE}${folder}/${fname}', allPhotos, allPhotos.indexOf('${BASE}${folder}/${fname}'))" loading="lazy">`;
+    allMedia.push({ type: 'photo', src: `${BASE}${folder}/${fname}` });
+  }
+  const mediaKey = `media_${folder.replace(/\//g, '_')}`;
+  window[mediaKey] = allMedia;
+  const photoStartIndex = video ? 1 : 0;
+  for (let i = photoStartIndex; i < allMedia.length; i++) {
+    mediaGridHTML += `<img src="${allMedia[i].src}" alt="скрін ${i}" onclick="openMediaLightbox('${mediaKey}', ${i})" loading="lazy">`;
   }
 
   return `
@@ -379,7 +424,10 @@ function renderProject(p, index) {
     <div class="media-section">
       <div class="media-inner">
         ${p.full_description ? `<div class="full-desc">${p.full_description}</div>` : ''}
-        ${renderVideo(video, folder)}
+        ${video ? `<div class="video-thumb" onclick="openMediaLightbox('${mediaKey}', 0)">
+          <div class="video-play-icon">▶</div>
+          <div class="video-label">Натисніть для перегляду відео</div>
+        </div>` : ''}
         <div class="media-grid">${mediaGridHTML}</div>
       </div>
     </div>
@@ -411,39 +459,53 @@ function toggleMedia(btn) {
   }
 }
 
-let currentPhotos = [];
-let currentPhotoIndex = 0;
+let currentMedia = [];
+let currentMediaIndex = 0;
 let touchStartX = 0;
 
-function openLightbox(src, photos, index) {
-  currentPhotos = photos || [src];
-  currentPhotoIndex = index || 0;
-  updateLightbox();
+function getEmbedUrl(src) {
+  const ytId = src.match(/(?:shorts\/|v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytId) return `https://www.youtube.com/embed/${ytId[1]}?autoplay=1`;
+  const vimeoMatch = src.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`;
+  return src;
+}
+
+function openMediaLightbox(mediaKey, index) {
+  currentMedia = window[mediaKey] || [];
+  currentMediaIndex = index || 0;
+  updateMediaLightbox();
   document.getElementById('lightbox').classList.add('show');
 
-  // swipe support
   const lb = document.getElementById('lightbox');
   lb.ontouchstart = e => { touchStartX = e.touches[0].clientX; };
   lb.ontouchend = e => {
     const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) changePhoto(diff > 0 ? 1 : -1);
+    if (Math.abs(diff) > 50) changeMedia(diff > 0 ? 1 : -1);
   };
-  lb.onclick = e => {
-    if (e.target === lb) closeLightbox();
-  };
+  lb.onclick = e => { if (e.target === lb) closeLightbox(); };
 }
 
-function updateLightbox() {
-  document.getElementById('lightboxImg').src = currentPhotos[currentPhotoIndex];
-  document.getElementById('lightboxCounter').textContent = `${currentPhotoIndex + 1} / ${currentPhotos.length}`;
+function updateMediaLightbox() {
+  const item = currentMedia[currentMediaIndex];
+  const content = document.getElementById('lightboxContent');
+  if (item.type === 'photo') {
+    content.innerHTML = `<img src="${item.src}" alt="">`;
+  } else {
+    content.innerHTML = `<iframe src="${getEmbedUrl(item.src)}" allowfullscreen allow="autoplay"></iframe>`;
+  }
+  document.getElementById('lightboxCounter').textContent = `${currentMediaIndex + 1} / ${currentMedia.length}`;
 }
 
-function changePhoto(dir) {
-  currentPhotoIndex = (currentPhotoIndex + dir + currentPhotos.length) % currentPhotos.length;
-  updateLightbox();
+function changeMedia(dir) {
+  // stop video before switching
+  document.getElementById('lightboxContent').innerHTML = '';
+  currentMediaIndex = (currentMediaIndex + dir + currentMedia.length) % currentMedia.length;
+  updateMediaLightbox();
 }
 
 function closeLightbox() {
+  document.getElementById('lightboxContent').innerHTML = '';
   document.getElementById('lightbox').classList.remove('show');
 }
 
