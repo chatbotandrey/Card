@@ -212,7 +212,7 @@
 </div>
 
 <script>
-const BASE = 'https://chatbotandrey.github.io/Card/';
+const BASE = 'https://miniapp-backend.andrchatbot.workers.dev';
 
 function getInitials(name) {
   return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
@@ -255,7 +255,7 @@ function renderReview(r) {
 
 async function loadReviews() {
   try {
-    const res = await fetch(`${BASE}reviews.json?t=${Date.now()}`);
+    const res = await fetch(`${BASE}/reviews`);
     const reviews = await res.json();
     document.getElementById('statsBlock').innerHTML = renderStats(reviews);
     document.getElementById('reviewsList').innerHTML = reviews.length
