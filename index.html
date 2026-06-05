@@ -827,7 +827,7 @@
     btn.textContent = 'Надсилаємо...';
 
     try {
-      const res = await fetch('https://miniapp-backend-413j.onrender.com/send', {
+      const res = await fetch('https://miniapp-backend.andrchatbot.workers.dev/send', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: `${platform} | ${username}`, msg: text })
