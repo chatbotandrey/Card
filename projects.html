@@ -14,6 +14,7 @@
     background: #0d0d0d;
     font-family: 'Onest', sans-serif;
     padding: 20px;
+    overflow-x: hidden;
   }
 
   @media (min-width: 768px) {
@@ -21,9 +22,21 @@
       max-width: 900px;
     }
 
-    .stats {
-      max-width: 900px;
+    #projectsList {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
     }
+
+    .project-card {
+      margin-bottom: 0;
+    }
+
+    .project-cover {
+      height: 220px;
+    }
+  }
 
     #reviewsList {
       display: grid;
