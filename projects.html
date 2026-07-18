@@ -424,7 +424,6 @@ function renderProject(p, index) {
   if (video) allMedia.push({ type: 'video', src: video, folder });
   for (let i = 1; i <= count; i++) {
     const fname = `${i}.png`;
-    if (fname === cover) continue;
     allMedia.push({ type: 'photo', src: `${BASE}${folder}/${fname}` });
   }
   const mediaKey = `media_${folder.replace(/\//g, '_')}`;
