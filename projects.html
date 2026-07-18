@@ -191,6 +191,7 @@
 
   .media-grid img {
     width: 100%;
+    min-width: 0;
     border-radius: 10px;
     object-fit: cover;
     aspect-ratio: 9/16;
@@ -439,7 +440,7 @@ function renderProject(p, index) {
     <div class="project-body">
       <div class="project-title-row">
         <div class="project-title">${p.title}</div>
-        <span class="demo-badge">Демо</span>
+        ${p.demo ? '<span class="demo-badge">Демо</span>' : ''}
       </div>
       <div class="project-desc">${p.description}</div>
       <button class="project-toggle" onclick="toggleMedia(this)">
