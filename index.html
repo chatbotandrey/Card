@@ -926,7 +926,7 @@
     //  - chatbot_dev_andrey.vcf      (UTF-8,   для Android/iOS/Telegram)
     //  - chatbot_dev_andrey_win.vcf  (CP1251,  для Windows Contacts)
     // new URL(...) строит абсолютный https-путь к нужному файлу на основе текущего адреса страницы.
-    const vcardFileUrl = new URL(filename, window.location.href).href;
+    const vcardFileUrl = 'https://miniapp-backend.andrchatbot.workers.dev/vcard';
     const dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
 
     if (isRealTelegramRuntime) {
