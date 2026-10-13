@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мої проєкти — chatbot.dev_andrey</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X9WC0EPENN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X9WC0EPENN');
+  function track(name, params = {}) { gtag('event', name, params); }
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -527,6 +535,7 @@ function toggleMedia(btn) {
   } else {
     btn.classList.add('open');
     section.classList.add('open');
+    track('project_open', { project: card.querySelector('.project-title').textContent.trim() });
     btn.querySelector('.btn-label').textContent = 'Сховати ↑';
     section.style.maxHeight = section.scrollHeight + 'px';
   }
@@ -577,6 +586,7 @@ function openMediaLightbox(mediaKey, index) {
     if (Math.abs(diff) > 50) changeMedia(diff > 0 ? 1 : -1);
   };
   lb.onclick = e => { if (e.target === lb) closeLightbox(); };
+  track('media_open', { type: currentMedia[currentMediaIndex].type });
 }
 
 function updateMediaLightbox() {

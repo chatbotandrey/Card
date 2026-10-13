@@ -12,6 +12,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-X9WC0EPENN');
+  function track(name, params = {}) { gtag('event', name, params); }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -828,6 +829,17 @@
 </div>
 
 <script>
+  /* ── Analytics ── */
+  document.querySelectorAll('.socials-dropdown a').forEach(a => {
+    a.addEventListener('click', () => track('social_click', { platform: a.textContent.trim() }));
+  });
+  document.querySelectorAll('.acc-btn').forEach(btn => {
+    btn.addEventListener('click', () => track('service_open', { service: btn.querySelector('span').textContent.trim() }));
+  });
+  document.getElementById('socialsToggle').addEventListener('click', () => track('socials_open'));
+  document.querySelector('.btn-reviews').addEventListener('click', () => track('reviews_click'));
+  document.querySelector('.btn-projects').addEventListener('click', () => track('projects_click'));
+
   /* ── Accordion ── */
   function toggleAcc(btn) {
     const body = btn.nextElementSibling;
@@ -864,6 +876,7 @@
 
   /* ── vCard ── */
   function downloadVCard() {
+    track('contact_save');
     const tg = window.Telegram && window.Telegram.WebApp;
     const isRealTelegramRuntime = !!(tg && tg.initData && tg.initData.length > 0);
     // Всегда используем /vcard на бэкенде (Cloudflare Worker) — он сам
@@ -990,6 +1003,7 @@
       });
 
       if (res.ok) {
+        track(endpoint.endsWith('/reviews') ? 'review_submit' : 'request_submit');
         btn.className   = 'sent';
         btn.textContent = '✅ Надіслано';
         document.getElementById('socialPlatform').value = '';
