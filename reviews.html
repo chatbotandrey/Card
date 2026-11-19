@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Відгуки — chatbot.dev_andrey</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X9WC0EPENN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X9WC0EPENN');
+  function track(name, params = {}) { gtag('event', name, params); }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #0d0d0d;
+    font-family: 'Onest', sans-serif;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+
+ .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+    grid-column: 1 / -1;
+  }
+ 
+  .page {
+    max-width: 360px;
+    margin: 0 auto;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  /* Планшети та ландшафтна орієнтація телефону */
+  @media (min-width: 600px) and (max-width: 767px) {
+    .page {
+      max-width: 600px;
+    }
+  }
+
+  /* Десктоп — як на головній сторінці та в проєктах */
+  @media (min-width: 768px) {
+    .page {
+      max-width: 900px;
+    }
+
+    #reviewsList {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .review-card {
+      margin-bottom: 0;
+    }
+  }
+
+  /* Широкі екрани */
+  @media (min-width: 1200px) {
+    .page {
+      max-width: 1000px;
+    }
+
+    #reviewsList {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .header {
+    background: linear-gradient(135deg, #241b52 0%, #33257a 45%, #5e72e4 120%);
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(94,114,228,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* STATS */
+  .stats {
+    background: #14141f;
+    border: 1px solid #26263a;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .stats-rating {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .stats-right { flex: 1; }
+
+  .stats-stars { color: #f5c518; font-size: 16px; margin-bottom: 4px; }
+
+  .stats-count {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* REVIEW CARD */
+  .review-card {
+    background: #14141f;
+    border: 1px solid #26263a;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .review-card:hover { border-color: #333; }
+
+  .review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .review-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5e72e4, #34d399);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .review-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  .review-role {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
+
+  .review-stars { color: #f5c518; font-size: 13px; }
+
+  .review-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .review-date {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.1);
+    padding: 16px 0 8px;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+  }
+
+  /* НИЖНЄ МЕНЮ */
+  body { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+
+  .bottom-nav {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+    background: rgba(13,13,13,0.94);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid #26263a;
+  }
+
+  .bottom-nav-inner {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .bottom-nav a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 9px 4px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    color: rgba(255,255,255,0.45);
+    font-size: 11px;
+    font-weight: 500;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .bottom-nav a svg { width: 22px; height: 22px; fill: currentColor; }
+
+  .bottom-nav a.active {
+    color: #fff;
+    background: rgba(94,114,228,0.18);
+    border-color: rgba(94,114,228,0.45);
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="header">
+    <div class="page-title">Відгуки</div>
+    <div class="page-sub">Що кажуть клієнти</div>
+  </div>
+
+  <div id="statsBlock"></div>
+  <div id="reviewsList"><div class="loading">Завантаження...</div></div>
+
+  <div class="footer">© 2026 chatbot.dev_andrey</div>
+</div>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="index.html" data-page="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Головна</a>
+    <a href="reviews.html" data-page="reviews" class="active"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>Відгуки</a>
+    <a href="projects.html" data-page="projects"><svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.1 15.9 0 13.36 0c-1.28 0-2.43.5-3.3 1.3L9 3.5 7.94 2.3C7.07.5 5.92 0 4.64 0 2.1 0 0 2.1 0 4.64c0 .48.11.92.18 1.36H0v2h20V6zM4.64 4.5c-.97 0-1.5-.56-1.5-1.5s.53-1.5 1.5-1.5c.5 0 .93.28 1.2.68L7.4 4.5H4.64zm8.72 0H10.6l1.56-1.82c.27-.4.7-.68 1.2-.68.97 0 1.5.56 1.5 1.5s-.53 1.5-1.5 1.5zM1 20c0 1.1.9 2 2 2h7v-7H1v5zm13 2h4c1.1 0 2-.9 2-2v-3h-6v5zm4-11H2c-.55 0-1 .45-1 1v2h20v-2c0-.55-.45-1-1-1z"/></svg>Мої проєкти</a>
+  </div>
+</nav>
+<script>
+const BASE = 'https://miniapp-backend.andrchatbot.workers.dev';
+
+function esc(v) {
+  return String(v == null ? '' : v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function getInitials(name) {
+  return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+}
+
+function renderStars(rating) {
+  return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+}
+
+function renderStats(reviews) {
+  if (!reviews.length) return '';
+  const avg = (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1);
+  return `
+  <div class="stats">
+    <div class="stats-rating">${avg}</div>
+    <div class="stats-right">
+      <div class="stats-stars">${renderStars(Math.round(avg))}</div>
+      <div class="stats-count">${reviews.length} відгук${reviews.length === 1 ? '' : reviews.length < 5 ? 'и' : 'ів'}</div>
+    </div>
+  </div>`;
+}
+
+function renderReview(r) {
+  return `
+  <div class="review-card">
+    <div class="review-header">
+      <div class="review-author">
+        <div class="review-avatar">${esc(getInitials(r.name))}</div>
+        <div>
+          <div class="review-name">${esc(r.name)}</div>
+          ${r.role ? `<div class="review-role">${esc(r.role)}</div>` : ''}
+        </div>
+      </div>
+      <div class="review-stars">${renderStars(r.rating)}</div>
+    </div>
+    <div class="review-text">${esc(r.text)}</div>
+    <div class="review-date">${esc(r.date)}</div>
+  </div>`;
+}
+
+async function loadReviews() {
+  try {
+    const res = await fetch(`${BASE}/reviews`);
+    const reviews = await res.json();
+    document.getElementById('statsBlock').innerHTML = renderStats(reviews);
+    document.getElementById('reviewsList').innerHTML = reviews.length
+      ? reviews.map(renderReview).join('')
+      : '<div class="empty">Поки що відгуків немає 😊</div>';
+  } catch(e) {
+    document.getElementById('reviewsList').innerHTML = '<div class="empty">Поки що відгуків немає 😊</div>';
+    document.getElementById('statsBlock').innerHTML = '';
+  }
+}
+
+loadReviews();
+
+/* ── Нижнє меню ── */
+const CURRENT_PAGE = 'reviews';
+document.querySelectorAll('.bottom-nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const page = a.dataset.page;
+    if (page === CURRENT_PAGE) return;
+    if (page !== 'home') track(page + '_click');
+    if (page === 'home') {
+      let fromHome = false;
+      try { fromHome = sessionStorage.getItem('navFromHome') === '1'; } catch (err) {}
+      // прийшли з головної — повертаємось на неї кроком назад, щоб історія не росла
+      if (fromHome) { history.back(); return; }
+    }
+    location.replace(a.getAttribute('href'));
+  });
+});
+</script>
+</body>
+</html>
