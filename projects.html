@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мої проєкти — chatbot.dev_andrey</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X9WC0EPENN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X9WC0EPENN');
+  function track(name, params = {}) { gtag('event', name, params); }
+</script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #0d0d0d;
+    font-family: 'Onest', sans-serif;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+
+  .page {
+    max-width: 360px;
+    margin: 0 auto;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  /* Планшети та ландшафтна орієнтація телефону */
+  @media (min-width: 600px) and (max-width: 767px) {
+    .page {
+      max-width: 600px;
+    }
+  }
+
+  /* Десктоп — одна широка картка в ряд, як на головній сторінці */
+  @media (min-width: 768px) {
+    .page {
+      max-width: 900px;
+    }
+
+    .project-cover {
+      max-height: 320px;
+    }
+  }
+
+  /* Широкі екрани */
+  @media (min-width: 1200px) {
+    .page {
+      max-width: 1000px;
+    }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .header {
+    background: linear-gradient(135deg, #241b52 0%, #33257a 45%, #5e72e4 120%);
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(94,114,228,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .page-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* PROJECT CARD */
+  .project-card {
+    background: #14141f;
+    border: 1px solid #26263a;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .project-card:hover { border-color: #333; }
+
+  /* Обложка — показываем картинку ПОЛНОСТЬЮ, без обрезки */
+  .project-cover {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    background: linear-gradient(135deg, #241b52, #3355c9);
+  }
+
+  .project-body { padding: 16px 20px; }
+
+  .project-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .project-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .demo-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Onest', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #f5a623;
+    background: rgba(245,166,35,0.12);
+    border: 1px solid rgba(245,166,35,0.35);
+    border-radius: 6px;
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
+
+  .project-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+    white-space: pre-line;
+    margin-bottom: 14px;
+  }
+
+  .project-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .project-toggle:hover {
+    border-color: #5e72e4;
+    color: #8b9cf7;
+  }
+
+  .project-toggle.open {
+    border-color: #5e72e4;
+    color: #8b9cf7;
+  }
+
+  /* MEDIA GALLERY */
+  .media-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: start;
+  }
+
+  .media-grid img {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background: #1a1a1a;
+  }
+
+  .media-grid img:hover { transform: scale(1.02); }
+
+  .full-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    white-space: pre-line;
+    background: rgba(94,114,228,0.06);
+    border: 1px solid rgba(94,114,228,0.15);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .video-thumb {
+    position: relative;
+    min-height: 260px;
+    background: linear-gradient(135deg, #2a2a4e, #1a4a80);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: opacity 0.2s;
+    border: 1px solid rgba(94,114,228,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-thumb:hover { opacity: 0.9; }
+
+  .video-play-icon {
+    font-size: 48px;
+    margin-bottom: 8px;
+    color: #34d399;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  }
+
+  .video-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .video-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 8px;
+    background: #000;
+  }
+
+  .video-wrap iframe {
+    width: 100%;
+    aspect-ratio: 9/16;
+    border: none;
+    display: block;
+  }
+
+  .video-wrap video {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+
+  .lightbox.show { display: flex; }
+
+  .lightbox-content {
+    max-width: 98vw;
+    max-height: 98vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-content img {
+    max-width: 98vw;
+    max-height: 98vh;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+
+  .lightbox-content iframe {
+    width: 85vw;
+    aspect-ratio: 9/16;
+    border-radius: 12px;
+    border: none;
+    max-height: 90vh;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    z-index: 1;
+  }
+
+  .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
+  .lightbox-nav.prev { left: 12px; }
+  .lightbox-nav.next { right: 12px; }
+
+  .lightbox-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.1);
+    padding: 16px 0 8px;
+  }
+
+  /* НИЖНЄ МЕНЮ ТА ЄДИНА ЗОЛОТА РАМКА */
+  :root {
+    --gold: rgba(230,180,60,0.55);
+    /* верхній відступ: рядок стану + панель Telegram у повноекранному режимі */
+    --safe-top: max(env(safe-area-inset-top, 0px), calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)));
+    --nav-bg: rgba(13,13,13,0.94);
+  }
+
+  /* резервуємо місце під смугу прокрутки, щоб контент не зсувався при її появі */
+  html { scrollbar-gutter: stable; }
+
+  .bottom-nav {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+    background: var(--nav-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--gold);
+    border-left: 2px solid var(--gold);
+    border-right: 2px solid var(--gold);
+    box-shadow: 0 -6px 24px rgba(230,180,60,0.12);
+  }
+  .bottom-nav-inner {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .bottom-nav a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 9px 4px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    color: rgba(255,255,255,0.45);
+    font-size: 11px;
+    font-weight: 500;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .bottom-nav a svg { width: 22px; height: 22px; fill: currentColor; }
+
+  .bottom-nav a.active {
+    color: #fff;
+    background: rgba(94,114,228,0.18);
+    border-color: rgba(94,114,228,0.45);
+  }
+
+  /* ЕКРАН ПРОЄКТУ */
+  .detail {
+    display: none;
+    position: fixed;
+    z-index: 90;
+    left: 0; right: 0; top: 0; bottom: 0;
+    background: #0d0d0d;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    border-left: 2px solid var(--gold);
+    border-right: 2px solid var(--gold);
+    padding: max(16px, calc(var(--safe-top) + 12px)) 14px calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+  .detail.show { display: block; animation: fadeUp 0.35s ease both; }
+  body.detail-open { overflow: hidden; }
+
+  .detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(94,114,228,0.14);
+    border: 1px solid rgba(94,114,228,0.4);
+    border-radius: 10px;
+    padding: 8px 14px;
+    margin-bottom: 14px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .detail .project-cover { border-radius: 16px; margin-bottom: 14px; }
+  .detail-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .detail .project-desc { font-size: 13px; }
+  .detail .full-desc { font-size: 13px; }
+  .detail-end { height: 8px; }
+
+  @media (min-width: 600px) and (max-width: 767px) {
+    .detail {
+      padding-left: max(14px, calc((100vw - 600px) / 2));
+      padding-right: max(14px, calc((100vw - 600px) / 2));
+    }
+  }
+
+  /* Телефон: сторінка на всю ширину із золотою рамкою по боках */
+  @media (max-width: 767px) {
+    body { padding: 0; }
+    .page {
+      max-width: none;
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      border-left: 2px solid var(--gold);
+      border-right: 2px solid var(--gold);
+      padding: max(20px, calc(var(--safe-top) + 12px)) 14px calc(96px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 767px) {
+    .page {
+      padding-left: max(14px, calc((100vw - 600px) / 2));
+      padding-right: max(14px, calc((100vw - 600px) / 2));
+    }
+  }
+
+  /* ПК: одна рамка — сторінка + меню внизу як єдина фігура */
+  @media (min-width: 768px) {
+    body { padding: 20px 20px calc(96px + env(safe-area-inset-bottom, 0px)); }
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      min-height: calc(100vh - 20px - 96px - env(safe-area-inset-bottom, 0px));
+      border: 2px solid var(--gold);
+      border-bottom: none;
+      border-radius: 28px 28px 0 0;
+      padding: 24px 24px 0;
+    }
+    .bottom-nav {
+      left: 0; right: 0;
+      margin: 0 auto;
+      width: min(900px, calc(100% - 40px));
+      bottom: 20px;
+      padding: 8px 12px;
+      border: 2px solid var(--gold);
+      border-top: 1px solid var(--gold);
+      border-radius: 0 0 28px 28px;
+    }
+    .detail {
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+      top: 20px;
+      bottom: 90px;
+      border: 2px solid var(--gold);
+      border-bottom: none;
+      border-radius: 28px 28px 0 0;
+      padding: 24px 24px 16px;
+    }
+    .detail .media-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="header">
+    <div class="page-title">Мої проєкти</div>
+    <div class="page-sub">Реалізовані кейси та автоматизації</div>
+  </div>
+
+  <div id="projectsList">
+    <div class="loading">Завантаження...</div>
+  </div>
+
+  <div class="footer">© 2026 chatbot.dev_andrey</div>
+</div>
+
+<!-- Екран проєкту -->
+<div class="detail" id="detail"><div id="detailInner"></div></div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav prev" onclick="changeMedia(-1)">&#8249;</button>
+  <div class="lightbox-content" id="lightboxContent"></div>
+  <button class="lightbox-nav next" onclick="changeMedia(1)">&#8250;</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="index.html" data-page="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Головна</a>
+    <a href="projects.html" data-page="projects" class="active"><svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.1 15.9 0 13.36 0c-1.28 0-2.43.5-3.3 1.3L9 3.5 7.94 2.3C7.07.5 5.92 0 4.64 0 2.1 0 0 2.1 0 4.64c0 .48.11.92.18 1.36H0v2h20V6zM4.64 4.5c-.97 0-1.5-.56-1.5-1.5s.53-1.5 1.5-1.5c.5 0 .93.28 1.2.68L7.4 4.5H4.64zm8.72 0H10.6l1.56-1.82c.27-.4.7-.68 1.2-.68.97 0 1.5.56 1.5 1.5s-.53 1.5-1.5 1.5zM1 20c0 1.1.9 2 2 2h7v-7H1v5zm13 2h4c1.1 0 2-.9 2-2v-3h-6v5zm4-11H2c-.55 0-1 .45-1 1v2h20v-2c0-.55-.45-1-1-1z"/></svg>Мої проєкти</a>
+    <a href="reviews.html" data-page="reviews"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>Відгуки</a>
+  </div>
+</nav>
+<script>
+/* ── Безпечні зони Telegram (повноекранний режим) ── */
+(function () {
+  try {
+    const tg = window.Telegram && window.Telegram.WebApp;
+    if (!tg) return;
+    const apply = () => {
+      const r = document.documentElement.style;
+      const a = tg.safeAreaInset || {}, c = tg.contentSafeAreaInset || {};
+      r.setProperty('--tg-safe-area-inset-top', (a.top || 0) + 'px');
+      r.setProperty('--tg-content-safe-area-inset-top', (c.top || 0) + 'px');
+    };
+    apply();
+    tg.onEvent('safeAreaChanged', apply);
+    tg.onEvent('contentSafeAreaChanged', apply);
+  } catch (e) {}
+})();
+
+const BASE = 'https://chatbotandrey.github.io/Card/';
+
+function getYouTubeId(url) {
+  const match = url.match(/(?:shorts\/|v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
+}
+
+function renderVideo(videoSrc, folder) {
+  if (!videoSrc) return '';
+  const ytId = getYouTubeId(videoSrc);
+  if (ytId) {
+    return `<div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe>
+    </div>`;
+  }
+  if (videoSrc.includes('vimeo.com')) {
+    const vimeoMatch = videoSrc.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vimeoMatch) {
+      return `<div class="video-wrap">
+        <iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}" allowfullscreen></iframe>
+      </div>`;
+    }
+  }
+  if (videoSrc.startsWith('http')) {
+    return `<div class="video-wrap">
+      <iframe src="${videoSrc}" allowfullscreen></iframe>
+    </div>`;
+  }
+  return `<div class="video-wrap">
+    <video controls src="${BASE}${folder}/${videoSrc}"></video>
+  </div>`;
+}
+
+function buildMedia(p) {
+  const folder = p.folder;
+  const count = p.index ? p.index.count : 0;
+  const video = p.index ? p.index.video : null;
+  const all = [];
+  if (video) all.push({ type: 'video', src: video, folder });
+  for (let i = 1; i <= count; i++) {
+    all.push({ type: 'photo', src: `${BASE}${folder}/${i}.png` });
+  }
+  return { all, video };
+}
+
+function renderProject(p, index) {
+  const folder = p.folder;
+  const cover = p.index ? p.index.cover : '1.png';
+
+  return `
+  <div class="project-card">
+    <img class="project-cover" src="${BASE}${folder}/${cover}" alt="${p.title}">
+    <div class="project-body">
+      <div class="project-title-row">
+        <div class="project-title">${p.title}</div>
+        ${p.demo ? '<span class="demo-badge">Демо</span>' : ''}
+      </div>
+      <div class="project-desc">${p.description}</div>
+      <button class="project-toggle" onclick="openDetail(${index})">
+        <span class="btn-label">Детальніше</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+    </div>
+  </div>`;
+}
+
+/* ── Екран проєкту ── */
+let detailOpen = false;
+
+function openDetail(i) {
+  const p = (window.__projects || [])[i];
+  if (!p) return;
+  const { all, video } = buildMedia(p);
+  window.media_detail = all;
+  const cover = p.index ? p.index.cover : '1.png';
+
+  let photos = '';
+  for (let k = video ? 1 : 0; k < all.length; k++) {
+    photos += `<img src="${all[k].src}" alt="скрін ${k}" onclick="openMediaLightbox('media_detail', ${k})" loading="lazy">`;
+  }
+  const text = p.full_description
+    ? `<div class="full-desc">${p.full_description}</div>`
+    : `<div class="project-desc">${p.description}</div>`;
+
+  document.getElementById('detailInner').innerHTML = `
+    <button class="detail-back" onclick="closeDetail()">‹ Назад</button>
+    <img class="project-cover" src="${BASE}${p.folder}/${cover}" alt="${p.title}">
+    <div class="project-title-row">
+      <div class="detail-title">${p.title}</div>
+      ${p.demo ? '<span class="demo-badge">Демо</span>' : ''}
+    </div>
+    ${text}
+    ${video ? `<div class="video-thumb" onclick="openMediaLightbox('media_detail', 0)">
+      <div class="video-play-icon">▶</div>
+      <div class="video-label">Натисніть для перегляду відео</div>
+    </div>` : ''}
+    <div class="media-grid">${photos}</div>
+    <div class="detail-end"></div>`;
+
+  const d = document.getElementById('detail');
+  d.classList.add('show');
+  d.scrollTop = 0;
+  document.body.classList.add('detail-open');
+  // крок в історії, щоб системна «назад» закривала екран проєкту
+  if (!detailOpen) {
+    detailOpen = true;
+    try { history.pushState({ detail: 1 }, ''); } catch (e) {}
+  }
+  track('project_open', { project: String(p.title).trim() });
+}
+
+function hideDetail() {
+  detailOpen = false;
+  document.getElementById('detail').classList.remove('show');
+  document.getElementById('detailInner').innerHTML = '';
+  document.body.classList.remove('detail-open');
+}
+
+function closeDetail() {
+  if (detailOpen && history.state && history.state.detail) history.back();
+  else hideDetail();
+}
+
+let currentMedia = [];
+let currentMediaIndex = 0;
+let touchStartX = 0;
+
+function getEmbedUrl(src) {
+  const ytId = src.match(/(?:shorts\/|v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytId) return `https://www.youtube.com/embed/${ytId[1]}?autoplay=1`;
+  const vimeoMatch = src.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`;
+  return src;
+}
+
+let lightboxOpen = false;
+
+function openMediaLightbox(mediaKey, index) {
+  currentMedia = window[mediaKey] || [];
+  currentMediaIndex = index || 0;
+  updateMediaLightbox();
+  document.getElementById('lightbox').classList.add('show');
+  // додаємо крок в історію, щоб системна «назад» закривала фото/відео
+  if (!lightboxOpen) {
+    lightboxOpen = true;
+    try { history.pushState({ lb: 1 }, ''); } catch (e) {}
+  }
+
+  const lb = document.getElementById('lightbox');
+  lb.ontouchstart = e => { touchStartX = e.touches[0].clientX; };
+  lb.ontouchend = e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) changeMedia(diff > 0 ? 1 : -1);
+  };
+  lb.onclick = e => { if (e.target === lb) closeLightbox(); };
+  track('media_open', { type: currentMedia[currentMediaIndex].type });
+}
+
+function updateMediaLightbox() {
+  const item = currentMedia[currentMediaIndex];
+  const content = document.getElementById('lightboxContent');
+  if (item.type === 'photo') {
+    content.innerHTML = `<img src="${item.src}" alt="">`;
+  } else {
+    content.innerHTML = `<iframe src="${getEmbedUrl(item.src)}" allowfullscreen allow="autoplay"></iframe>`;
+  }
+  document.getElementById('lightboxCounter').textContent = `${currentMediaIndex + 1} / ${currentMedia.length}`;
+}
+
+function changeMedia(dir) {
+  // stop video before switching
+  document.getElementById('lightboxContent').innerHTML = '';
+  currentMediaIndex = (currentMediaIndex + dir + currentMedia.length) % currentMedia.length;
+  updateMediaLightbox();
+}
+
+function hideLightbox() {
+  lightboxOpen = false;
+  document.getElementById('lightboxContent').innerHTML = '';
+  document.getElementById('lightbox').classList.remove('show');
+}
+
+function closeLightbox() {
+  // ✕ і клік по фону теж йдуть через історію, щоб не залишати зайвих кроків
+  if (lightboxOpen && history.state && history.state.lb) history.back();
+  else hideLightbox();
+}
+
+window.addEventListener('popstate', () => {
+  if (lightboxOpen) hideLightbox();
+  else if (detailOpen) hideDetail();
+});
+
+async function loadProjects() {
+  try {
+    const res = await fetch(`${BASE}projects.json?t=${Date.now()}`);
+    const projects = await res.json();
+
+    await Promise.all(projects.map(async p => {
+      try {
+        const r = await fetch(`${BASE}${p.folder}/index.json?t=${Date.now()}`);
+        p.index = await r.json();
+      } catch { p.index = { count: 0, cover: '1.png' }; }
+    }));
+
+    window.__projects = projects;
+    document.getElementById('projectsList').innerHTML = projects.map(renderProject).join('');
+  } catch(e) {
+    document.getElementById('projectsList').innerHTML = '<div class="loading">Помилка завантаження 😢</div>';
+  }
+}
+
+loadProjects();
+
+/* ── Нижнє меню ── */
+const CURRENT_PAGE = 'projects';
+const tgBack = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.BackButton) || null;
+
+function goHome() {
+  // ховаємо кнопку «назад» Telegram, щоб вона не лишилась на головній
+  try { if (tgBack) tgBack.hide(); } catch (e) {}
+  let fromHome = false;
+  try { fromHome = sessionStorage.getItem('navFromHome') === '1'; } catch (e) {}
+  // якщо відкритий екран проєкту — він теж займає один крок історії
+  const extra = detailOpen ? 1 : 0;
+  if (detailOpen) hideDetail();
+  // прийшли з головної — повертаємось кроком назад, щоб історія не росла
+  if (fromHome) { history.go(-(1 + extra)); return; }
+  location.replace('index.html');
+}
+
+document.querySelectorAll('.bottom-nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const page = a.dataset.page;
+    if (page === CURRENT_PAGE) return;
+    if (page === 'home') { goHome(); return; }
+    track(page + '_click');
+    location.replace(a.getAttribute('href'));
+  });
+});
+
+/* ── Кнопка «назад» Telegram (стрілка у верхній панелі) ── */
+try {
+  if (tgBack) {
+    tgBack.onClick(() => { if (lightboxOpen) closeLightbox(); else if (detailOpen) closeDetail(); else goHome(); });
+    tgBack.show();
+  }
+} catch (e) {}
+</script>
+</body>
+</html>
